@@ -69,6 +69,12 @@ public class QuizManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         ControlarMovimientoPersonaje(false);
+
+        // --- LO NUEVO ---
+        BarajarPreguntas(); // Barajamos el mazo de preguntas
+        preguntaActual = 0; // Nos aseguramos de robar la primera carta del mazo mezclado
+        // ----------------
+
         ActualizarTextoVidas();
         CargarPregunta();
     }
@@ -319,6 +325,20 @@ public class QuizManager : MonoBehaviour
         {
             float tiempoAMostrar = Mathf.Max(0, tiempoActual);
             textoTiempo.text = "Tiempo: " + Mathf.CeilToInt(tiempoAMostrar).ToString();
+        }
+    }
+
+    // NUEVO: Función para barajar las preguntas aleatoriamente
+    void BarajarPreguntas()
+    {
+        for (int i = 0; i < misPreguntas.Count; i++)
+        {
+            QuizQuestionData cartaTemporal = misPreguntas[i];
+            int indiceAleatorio = Random.Range(i, misPreguntas.Count);
+
+            // Intercambiamos la pregunta actual por una aleatoria
+            misPreguntas[i] = misPreguntas[indiceAleatorio];
+            misPreguntas[indiceAleatorio] = cartaTemporal;
         }
     }
 }
